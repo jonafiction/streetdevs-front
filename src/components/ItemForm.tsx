@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../store/store';
-import { addItem, updateItem } from '../store/itemSlice';
-import { createItem, updateItem as updateItemApi, uploadFile } from '../services/api';
-import { Item } from '../types/Item';
-import { Button, CircularProgress } from '@mui/material';
+// ItemForm.tsx
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store/store";
+import { addItem, updateItem } from "../store/itemSlice";
+import {
+  createItem,
+  updateItem as updateItemApi,
+  uploadFile,
+} from "../services/api";
+import { Item } from "../types/Item";
+import { Paper, Typography, Box } from "@mui/material";
+import ItemFormInputs from "./ItemFormsInputs";
+import ItemFormButtons from "./ItemFormsButtons";
 
 interface ItemFormProps {
   itemToEdit: Item | null;
@@ -13,8 +20,8 @@ interface ItemFormProps {
 
 const ItemForm: React.FC<ItemFormProps> = ({ itemToEdit, setItemToEdit }) => {
   const dispatch: AppDispatch = useDispatch();
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -25,18 +32,12 @@ const ItemForm: React.FC<ItemFormProps> = ({ itemToEdit, setItemToEdit }) => {
       setDescription(itemToEdit.description);
       setFileUrl(itemToEdit.fileUrl || null);
     } else {
-      setName('');
-      setDescription('');
+      setName("");
+      setDescription("");
       setFileUrl(null);
     }
     setFile(null);
   }, [itemToEdit]);
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setFile(event.target.files[0]);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,64 +60,43 @@ const ItemForm: React.FC<ItemFormProps> = ({ itemToEdit, setItemToEdit }) => {
         dispatch(addItem(response.data));
       }
 
-      setName('');
-      setDescription('');
+      setName("");
+      setDescription("");
       setFile(null);
       setFileUrl(null);
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
     } finally {
       setUploading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <input
-        type="text"
-        value={name}
-        onChange={e => setName(e.target.value)}
-        placeholder="Name"
-        required
-        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-      />
-      <input
-        type="text"
-        value={description}
-        onChange={e => setDescription(e.target.value)}
-        placeholder="Description"
-        required
-        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-      />
-      <div>
-        <input
-          type="file"
-          onChange={handleFileChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md"
-        />
-        {fileUrl && <p className="mt-2">Current file: {fileUrl}</p>}
-      </div>
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        disabled={uploading}
-        className="w-full"
+    <Paper elevation={3} sx={{ p: 3, maxWidth: 400, mx: "auto" }}>
+      <Typography variant="h5" gutterBottom>
+        {itemToEdit ? "Edit Item" : "Add New Item"}
+      </Typography>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{ "& .MuiTextField-root": { mb: 2 } }}
       >
-        {uploading ? <CircularProgress size={24} /> : (itemToEdit ? 'Update Item' : 'Add Item')}
-      </Button>
-      {itemToEdit && (
-        <Button 
-          type="button" 
-          onClick={() => setItemToEdit(null)} 
-          variant="contained"
-          color="secondary"
-          className="w-full"
-        >
-          Cancel Edit
-        </Button>
-      )}
-    </form>
+        <ItemFormInputs
+          name={name}
+          setName={setName}
+          description={description}
+          setDescription={setDescription}
+          file={file}
+          setFile={setFile}
+          fileUrl={fileUrl}
+        />
+        <ItemFormButtons
+          uploading={uploading}
+          itemToEdit={itemToEdit}
+          setItemToEdit={setItemToEdit}
+        />
+      </Box>
+    </Paper>
   );
 };
 
