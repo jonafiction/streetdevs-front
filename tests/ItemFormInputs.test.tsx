@@ -5,7 +5,7 @@ import "@testing-library/jest-dom";
 import ItemFormInputs from "../src/components/ItemFormsInputs";
 
 describe("ItemFormInputs", () => {
-  it("renders input fields", () => {
+  it("Muestra input fields", () => {
     render(
       <ItemFormInputs
         name=""
