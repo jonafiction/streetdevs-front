@@ -74,7 +74,7 @@ const ItemForm: React.FC<ItemFormProps> = ({ itemToEdit, setItemToEdit }) => {
   return (
     <Paper elevation={3} sx={{ p: 3, maxWidth: 400, mx: "auto" }}>
       <Typography variant="h5" gutterBottom>
-        {itemToEdit ? "Edit Item" : "Add New Item"}
+        {itemToEdit ? "Editar Item" : "Agregar Item"}
       </Typography>
       <Box
         component="form"
@@ -86,7 +86,6 @@ const ItemForm: React.FC<ItemFormProps> = ({ itemToEdit, setItemToEdit }) => {
           setName={setName}
           description={description}
           setDescription={setDescription}
-          file={file}
           setFile={setFile}
           fileUrl={fileUrl}
         />

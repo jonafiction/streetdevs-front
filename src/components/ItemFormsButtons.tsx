@@ -26,7 +26,7 @@ const ItemFormButtons: React.FC<ItemFormButtonsProps> = ({
         startIcon={uploading ? <CircularProgress size={20} /> : null}
         sx={{ mt: 2 }}
       >
-        {uploading ? "Uploading..." : itemToEdit ? "Update Item" : "Add Item"}
+        {uploading ? "Uploading..." : itemToEdit ? "Actualizar" : "Agregar"}
       </Button>
       {itemToEdit && (
         <Button
@@ -37,7 +37,7 @@ const ItemFormButtons: React.FC<ItemFormButtonsProps> = ({
           startIcon={<CancelIcon />}
           sx={{ mt: 1 }}
         >
-          Cancel Edit
+          Cancelar
         </Button>
       )}
     </>

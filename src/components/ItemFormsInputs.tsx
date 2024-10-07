@@ -35,14 +35,14 @@ const ItemFormInputs: React.FC<ItemFormInputsProps> = ({
     <>
       <TextField
         fullWidth
-        label="Name"
+        label="Nombre"
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
       />
       <TextField
         fullWidth
-        label="Description"
+        label="Descripción"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         required
