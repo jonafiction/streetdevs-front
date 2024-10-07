@@ -4,6 +4,7 @@ import { AppDispatch } from '../store/store';
 import { addItem, updateItem } from '../store/itemSlice';
 import { createItem, updateItem as updateItemApi, uploadFile } from '../services/api';
 import { Item } from '../types/Item';
+import { Button, CircularProgress } from '@mui/material';
 
 interface ItemFormProps {
   itemToEdit: Item | null;
@@ -15,18 +16,18 @@ const ItemForm: React.FC<ItemFormProps> = ({ itemToEdit, setItemToEdit }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [file, setFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (itemToEdit) {
       setName(itemToEdit.name);
       setDescription(itemToEdit.description);
-      setImageUrl(itemToEdit.imageUrl || null);
+      setFileUrl(itemToEdit.fileUrl || null);
     } else {
       setName('');
       setDescription('');
-      setImageUrl(null);
+      setFileUrl(null);
     }
     setFile(null);
   }, [itemToEdit]);
@@ -37,20 +38,36 @@ const ItemForm: React.FC<ItemFormProps> = ({ itemToEdit, setItemToEdit }) => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (itemToEdit) {
-      updateItemApi(itemToEdit.id, { name, description }).then(response => {
+    setUploading(true);
+
+    try {
+      let updatedFileUrl = fileUrl;
+      if (file) {
+        updatedFileUrl = await uploadFile(file);
+      }
+
+      const itemData = { name, description, fileUrl: updatedFileUrl };
+
+      if (itemToEdit) {
+        const response = await updateItemApi(itemToEdit.id, itemData);
         dispatch(updateItem(response.data));
         setItemToEdit(null);
-      });
-    } else {
-      createItem({ name, description }).then(response => {
+      } else {
+        const response = await createItem(itemData);
         dispatch(addItem(response.data));
-      });
+      }
+
+      setName('');
+      setDescription('');
+      setFile(null);
+      setFileUrl(null);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    } finally {
+      setUploading(false);
     }
-    setName('');
-    setDescription('');
   };
 
   return (
@@ -71,17 +88,33 @@ const ItemForm: React.FC<ItemFormProps> = ({ itemToEdit, setItemToEdit }) => {
         required
         className="w-full px-3 py-2 border border-gray-300 rounded-md"
       />
-      <button type="submit" className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-        {itemToEdit ? 'Update Item' : 'Add Item'}
-      </button>
+      <div>
+        <input
+          type="file"
+          onChange={handleFileChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md"
+        />
+        {fileUrl && <p className="mt-2">Current file: {fileUrl}</p>}
+      </div>
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        disabled={uploading}
+        className="w-full"
+      >
+        {uploading ? <CircularProgress size={24} /> : (itemToEdit ? 'Update Item' : 'Add Item')}
+      </Button>
       {itemToEdit && (
-        <button 
+        <Button 
           type="button" 
           onClick={() => setItemToEdit(null)} 
-          className="w-full px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+          variant="contained"
+          color="secondary"
+          className="w-full"
         >
           Cancel Edit
-        </button>
+        </Button>
       )}
     </form>
   );
