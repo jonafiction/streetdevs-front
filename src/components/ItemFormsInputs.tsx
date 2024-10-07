@@ -35,19 +35,23 @@ const ItemFormInputs: React.FC<ItemFormInputsProps> = ({
     <>
       <TextField
         fullWidth
-        label="Nombre"
+        id="name"
+        label="Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
+        inputProps={{ "aria-label": "name" }}
       />
       <TextField
         fullWidth
-        label="Descripción"
+        id="description"
+        label="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         required
         multiline
         rows={3}
+        inputProps={{ "aria-label": "description" }}
       />
       <TextField
         fullWidth
@@ -56,7 +60,11 @@ const ItemFormInputs: React.FC<ItemFormInputsProps> = ({
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton color="primary" component="span">
+              <IconButton
+                color="primary"
+                component="span"
+                aria-label="upload file"
+              >
                 <CloudUploadIcon />
               </IconButton>
             </InputAdornment>

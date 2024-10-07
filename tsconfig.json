@@ -8,9 +8,11 @@
     "target": "es2020",
     "module": "es2020",
     "moduleResolution": "node",
+    "jsx": "react-jsx", // For jest
     "esModuleInterop": true,
     "outDir": "./dist",
     "rootDir": "./src",
-    "strict": true
+    "strict": true,
+    "types": ["jest", "node"] // Ensure "jest" is included here
   }
 }
