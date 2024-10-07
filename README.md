@@ -1,6 +1,8 @@
 # StreetDevs - frontend
 
-Frontend hecho con React (Typescript). Para levantarlo, necesitarás hacer clone del repositorio, una vez descargado, dentro de tu terminal, deberás utilizar los siguientes comandos:
+Frontend hecho con React (Typescript). Para levantarlo, necesitarás hacer clone del repositorio (https://github.com/jonafiction/streetdevs-front.git). 
+
+Una vez descargado, dentro de tu terminal, deberás utilizar los siguientes comandos:
 
 // para ir a la ubicación del proyecto
 
