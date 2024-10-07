@@ -1,50 +1,19 @@
-# React + TypeScript + Vite
+# StreetDevs - frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend hecho con React (Typescript). Para levantarlo, necesitarás hacer clone del repositorio, una vez descargado, dentro de tu terminal, deberás utilizar los siguientes comandos:
 
-Currently, two official plugins are available:
+// para ir a la ubicación del proyecto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+cd /streetdevs-frontend
 
-## Expanding the ESLint configuration
+// para instalar las dependencias necesarias
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+npm install
 
-- Configure the top-level `parserOptions` property like this:
+// para iniciar el servicio
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+npm run dev
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Preview
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+![image](https://github.com/user-attachments/assets/73474647-6870-4a71-ab1e-8af5cd177217)
